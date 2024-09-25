@@ -1,0 +1,27 @@
+{
+  "verbose": true,
+  "firefox_profile": "C:\\Users\\user\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\t3opcsof.motivation",
+  "headless": true,
+  "twitter_language": "English",
+  "llm": "google",
+  "image_prompt_llm": "google",
+  "image_model": "prodia",
+  "threads": 8,
+  "zip_url": "https://huggingface.co/AZILS/BG/resolve/main/BG.zip?download=true",
+  "is_for_kids": false,
+  "google_maps_scraper": "https://github.com/gosom/google-maps-scraper/archive/refs/tags/v0.9.7.zip",
+  "email": {
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "username": "",
+    "password": ""
+  },
+  "google_maps_scraper_niche": "",
+  "scraper_timeout": 300,
+  "outreach_message_subject": "I have a question...",
+  "outreach_message_body_file": "outreach_message.html",
+  "gemini_api_key": "AIzaSyC6N1MVe9WmAFjWMNuXjlaLnYa8eO813tY",
+  "assembly_ai_api_key": "e9c253a938184370becdf77f2a9e6a45",
+  "font": "LuckeyGuy.ttf",
+  "imagemagick_path": "C:\\Program Files\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"
+}

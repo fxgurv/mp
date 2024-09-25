@@ -1,0 +1,48 @@
+
+git clone https://github.com/FujiwaraChoki/MoneyPrinterV2.git
+
+# Copy Example Configuration and fill out values in config.json
+cp config.example.json config.json
+
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment - Windows
+.\venv\Scripts\activate
+
+# Activate the virtual environment - Unix
+source venv/bin/activate
+pip install -r requirements.txt
+python src/main.py
+```
+
+## Documentation
+
+All relevant document can be found [here](docs/).
+
+## Scripts
+
+For easier usage, there are some scripts in the `scripts` directory, that can be used to directly access the core functionality of MPV2, without the need of user interaction.
+
+All scripts need to be run from the root directory of the project, e.g. `bash scripts/upload_video.sh`.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us. Check out [docs/Roadmap.md](docs/Roadmap.md) for a list of features that need to be implemented.
+
+## Code of Conduct
+
+Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+
+MoneyPrinterV2 is licensed under `Affero General Public License v3.0`. See [LICENSE](LICENSE) for more information.
+
+## Acknowledgments
+
+- [CoquiTTS](https://github.com/coqui-ai/TTS)
+- [gpt4free](https://github.com/xtekky/gpt4free)
+
+## Disclaimer
+
+This project is for educational purposes only. The author will not be responsible for any misuse of the information provided. All the information on this website is published in good faith and for general information purpose only. The author does not make any warranties about the completeness, reliability, and accuracy of this information. Any action you take upon the information you find on this website (FujiwaraChoki/MoneyPrinterV2), is strictly at your own risk. The author will not be liable for any losses and/or damages in connection with the use of our website.
