@@ -554,6 +554,7 @@ class YouTube:
             error(f"Failed to get Channel ID: {e}")
             return None
 
+    
     def upload_video(self) -> bool:
         """
         Uploads the video to YouTube.
@@ -602,12 +603,15 @@ class YouTube:
                 info("\t=> Setting description...")
 
             # Set description
-            time.sleep(10)
-            description_el.click()
-            time.sleep(0.5)
-            description_el.clear()
-            description_el.send_keys(self.metadata["description"])
-            success(f"Set video description: {self.metadata['description']}")
+            try:
+                time.sleep(5)
+                description_el.click()
+                time.sleep(0.5)
+                description_el.clear()
+                description_el.send_keys(self.metadata["description"])
+                success(f"Set video description: {self.metadata['description']}")
+            except Exception as e:
+                warning(f"Description not clickable, skipping... Error: {e}")
 
             time.sleep(0.5)
 
@@ -706,6 +710,7 @@ class YouTube:
             error(f"Failed to upload video: {e}")
             self.browser.quit()
             return False
+
 
     def get_videos(self) -> List[dict]:
         """
