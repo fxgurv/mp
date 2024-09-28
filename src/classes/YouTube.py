@@ -4,7 +4,7 @@ import json
 import time
 import requests
 import assemblyai as aai
-
+import shutil
 from utils import *
 from cache import *
 from .Tts import TTS
@@ -494,6 +494,30 @@ class YouTube:
 
         return combined_image_path
 
+    
+    def save_video_and_metadata(self):
+        # Create Videos folder if it doesn't exist
+        videos_dir = os.path.join(os.getcwd(), "Videos")
+        os.makedirs(videos_dir, exist_ok=True)
+
+        # Create folder for this video
+        video_folder = os.path.join(videos_dir, self.subject)
+        os.makedirs(video_folder, exist_ok=True)
+
+        # Copy the generated video to the new folder
+        video_filename = os.path.basename(self.video_path)
+        new_video_path = os.path.join(video_folder, video_filename)
+        shutil.copy2(self.video_path, new_video_path)
+
+
+        # Create and write metadata to a text file
+        metadata_path = os.path.join(video_folder, "metadata.txt")
+        with open(metadata_path, "w") as f:
+            f.write(f"Title: {self.metadata['title']}\n")
+            f.write(f"Description: {self.metadata['description']}\n")
+        info(f"Saved video and metadata to {video_folder}")
+
+    
     def generate_video(self, tts_instance: TTS) -> str:
         """
         Generates a YouTube Short based on the provided niche and language.
@@ -533,6 +557,8 @@ class YouTube:
         self.video_path = os.path.abspath(path)
         
         return path
+
+    
     
     def get_channel_id(self) -> str:
         """
