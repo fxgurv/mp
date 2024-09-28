@@ -42,7 +42,7 @@ def main():
             print("\n" * 100)
 
     if user_input == 1:
-        info("Starting YT Shorts Automater...")
+        info("Starting Shorts Automater...")
 
         cached_accounts = get_accounts("youtube")
         info(f"Retrieved {len(cached_accounts)} cached YouTube accounts")
