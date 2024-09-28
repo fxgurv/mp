@@ -555,6 +555,9 @@ class YouTube:
         
         info(f"Video generation complete. File saved at: {path}")
         self.video_path = os.path.abspath(path)
+
+        # Add this line to save the video and metadata
+        self.save_video_and_metadata()
         
         return path
 
