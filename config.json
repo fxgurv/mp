@@ -1,6 +1,6 @@
 {
   "verbose": true,
-  "firefox_profile": "",
+  "firefox_profile": "/data/Profile",
   "headless": true,
   "twitter_language": "English",
   "llm": "claude_3_haiku",
