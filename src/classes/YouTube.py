@@ -4,7 +4,7 @@ import json
 import time
 import requests
 import assemblyai as aai
-
+import shutil
 from utils import *
 from cache import *
 from .Tts import TTS
@@ -494,8 +494,36 @@ class YouTube:
 
         success(f"Video successfully created at: {combined_image_path}")
 
-        return combined_image_path    
-    
+        return combined_image_path  
+
+    def save_metadata(self):
+        info("Creating active_folder and saving metadata")
+        videos_dir = os.path.join(ROOT_DIR, "Videos")
+        
+        # Find the last generated folder number
+        existing_folders = [f for f in os.listdir(videos_dir) if os.path.isdir(os.path.join(videos_dir, f))]
+        last_number = max([int(f.split('.')[0]) for f in existing_folders if f.split('.')[0].isdigit()] or [0])
+        
+        # Create new folder name with incremented number
+        new_folder_number = last_number + 1
+        sanitized_subject = ''.join(c for c in self.subject if c.isalnum() or c.isspace())
+        folder_name = f"{new_folder_number}. {sanitized_subject}"
+        
+        active_folder = os.path.join(videos_dir, folder_name)
+        os.makedirs(active_folder, exist_ok=True)
+
+        metadata_file = os.path.join(active_folder, "metadata.txt")
+        with open(metadata_file, "w") as f:
+            f.write(f"Title: {self.metadata['title']}\n")
+            f.write(f"Description: {self.metadata['description']}")
+
+        info(f"Metadata saved to {metadata_file}")
+        info(f"Active folder: {active_folder}")
+
+        # Copy video instead of moving
+        shutil.copy2(self.video_path, os.path.join(active_folder, os.path.basename(self.video_path)))
+        info(f"Final video copied to active folder: {os.path.join(active_folder, os.path.basename(self.video_path))}")
+        
     
     def generate_video(self, tts_instance: TTS) -> str:
         """
@@ -534,6 +562,9 @@ class YouTube:
         
         info(f"Video generation complete. File saved at: {path}")
         self.video_path = os.path.abspath(path)
+
+        info("Saving metadata and video to active_folder")
+        self.save_metadata()
         
         return path
     
