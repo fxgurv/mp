@@ -2,9 +2,8 @@ import re
 import g4f
 import json
 import time
-import requests
-import assemblyai as aai
 import shutil
+import requests
 from utils import *
 from cache import *
 from .Tts import TTS
@@ -13,18 +12,23 @@ from status import *
 from uuid import uuid4
 from constants import *
 from typing import List
+import assemblyai as aai
 from moviepy.editor import *
+from datetime import datetime
 from termcolor import colored
 from selenium_firefox import *
 from selenium import webdriver
 from moviepy.video.fx.all import crop
 from moviepy.config import change_settings
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 from moviepy.video.tools.subtitles import SubtitlesClip
 from webdriver_manager.firefox import GeckoDriverManager
-from datetime import datetime
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 # Set ImageMagick Path
 change_settings({"IMAGEMAGICK_BINARY": get_imagemagick_path()})
