@@ -34,91 +34,37 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 change_settings({"IMAGEMAGICK_BINARY": get_imagemagick_path()})
 
 class YouTube:
-    """
-    Class for YouTube Automation.
-
-    Steps to create a YouTube Short:
-    1. Generate a topic [DONE]
-    2. Generate a script [DONE]
-    3. Generate metadata (Title, Description, Tags) [DONE]
-    4. Generate AI Image Prompts [DONE]
-    4. Generate Images based on generated Prompts [DONE]
-    5. Convert Text-to-Speech [DONE]
-    6. Show images each for n seconds, n: Duration of TTS / Amount of images [DONE]
-    7. Combine Concatenated Images with the Text-to-Speech [DONE]
-    """
     def __init__(self, account_uuid: str, account_nickname: str, fp_profile_path: str, niche: str, language: str) -> None:
-        """
-        Constructor for YouTube Class.
-
-        Args:
-            account_uuid (str): The unique identifier for the YouTube account.
-            account_nickname (str): The nickname for the YouTube account.
-            fp_profile_path (str): Path to the firefox profile that is logged into the specificed YouTube Account.
-            niche (str): The niche of the provided YouTube Channel.
-            language (str): The language of the Automation.
-
-        Returns:
-            None
-        """
         info(f"Initializing YouTube class for account: {account_nickname}")
         self._account_uuid: str = account_uuid
         self._account_nickname: str = account_nickname
         self._fp_profile_path: str = fp_profile_path
         self._niche: str = niche
         self._language: str = language
-
         self.images = []
-
         info(f"Niche: {niche}, Language: {language}")
-
         info("Setting up Firefox profile")
         self.options: Options = Options()
-        
         if get_headless():
             info("Setting browser to headless mode")
             self.options.add_argument("--headless")
-
         info(f"Setting Firefox profile path: {fp_profile_path}")
         self.options.add_argument("-profile")
         self.options.add_argument(fp_profile_path)
-
         info("Installing GeckoDriver")
         self.service: Service = Service(GeckoDriverManager().install())
-
         info("Initializing Firefox browser")
         self.browser: webdriver.Firefox = webdriver.Firefox(service=self.service, options=self.options)
 
     @property
     def niche(self) -> str:
-        """
-        Getter Method for the niche.
-
-        Returns:
-            niche (str): The niche
-        """
         return self._niche
     
     @property
     def language(self) -> str:
-        """
-        Getter Method for the language to use.
-
-        Returns:
-            language (str): The language
-        """
         return self._language
     
     def generate_response(self, prompt: str, model: any = None) -> str:
-        """
-        Generates an LLM Response based on a prompt and the user-provided model.
-
-        Args:
-            prompt (str): The prompt to use in the text generation.
-
-        Returns:
-            response (str): The generated AI Repsonse.
-        """
         info(f"Generating response for prompt: {prompt[:50]}...")
         if get_model() == "google":
             info("Using Google's Gemini model")
@@ -136,12 +82,6 @@ class YouTube:
         return response
 
     def generate_topic(self) -> str:
-        """
-        Generates a topic based on the YouTube Channel niche.
-
-        Returns:
-            topic (str): The generated topic.
-        """
         info("Generating topic for YouTube video")
         completion = self.generate_response(f"Please generate a specific video idea that takes about the following topic: {self.niche}. Make it exactly one sentence. Only return the topic, nothing else.")
 
@@ -154,12 +94,6 @@ class YouTube:
         return completion
 
     def generate_script(self) -> str:
-        """
-        Generate a script for a video, depending on the subject of the video, the number of paragraphs, and the AI model.
-
-        Returns:
-            script (str): The script of the video.
-        """
         info("Generating script for YouTube video")
         prompt = f"""
         Generate a script for a video in 4 sentences, depending on the subject of the video.
@@ -202,12 +136,6 @@ class YouTube:
         return completion
 
     def generate_metadata(self) -> dict:
-        """
-        Generates Video metadata for the to-be-uploaded YouTube Short (Title, Description).
-
-        Returns:
-            metadata (dict): The generated metadata.
-        """
         info("Generating metadata for YouTube video")
         title = self.generate_response(f"Please generate a YouTube Video Title for the following subject, including hashtags: {self.subject}. Only return the title, nothing else. Limit the title under 100 characters.")
 
@@ -226,12 +154,6 @@ class YouTube:
         return self.metadata
     
     def generate_prompts(self) -> List[str]:
-        """
-        Generates AI Image Prompts based on the provided Video Script.
-
-        Returns:
-            image_prompts (List[str]): Generated List of image prompts.
-        """
         info("Generating image prompts for YouTube video")
         n_prompts = 3
         info(f"Number of prompts requested: {n_prompts}")
@@ -289,15 +211,6 @@ class YouTube:
         return image_prompts
 
     def generate_image(self, prompt: str) -> str:
-        """
-        Generates an AI Image based on the given prompt.
-
-        Args:
-            prompt (str): Reference for image generation
-
-        Returns:
-            path (str): The path to the generated image.
-        """
         info(f"Generating image for prompt: {prompt[:50]}...")
         ok = False
         attempts = 0
@@ -324,15 +237,6 @@ class YouTube:
                 return image_path
 
     def generate_script_to_speech(self, tts_instance: TTS) -> str:
-        """
-        Converts the generated script into Speech using CoquiTTS and returns the path to the wav file.
-
-        Args:
-            tts_instance (tts): Instance of TTS Class.
-
-        Returns:
-            path_to_wav (str): Path to generated audio (WAV Format).
-        """
         info("Generating speech from script")
         path = os.path.join(ROOT_DIR, ".mp", str(uuid4()) + ".wav")
         self.script = re.sub(r'[^\w\s.?!]', '', self.script)
@@ -342,15 +246,6 @@ class YouTube:
         return path
     
     def add_video(self, video: dict) -> None:
-        """
-        Adds a video to the cache.
-
-        Args:
-            video (dict): The video to add
-
-        Returns:
-            None
-        """
         info(f"Adding video to cache: {video}")
         videos = self.get_videos()
         videos.append(video)
@@ -370,15 +265,6 @@ class YouTube:
         success("Video added to cache")
 
     def generate_subtitles(self, audio_path: str) -> str:
-        """
-        Generates subtitles for the audio using AssemblyAI.
-
-        Args:
-            audio_path (str): The path to the audio file.
-
-        Returns:
-            path (str): The path to the generated SRT File.
-        """
         info("Generating subtitles for the audio")
         aai.settings.api_key = get_assemblyai_api_key()
         config = aai.TranscriptionConfig()
@@ -396,12 +282,6 @@ class YouTube:
 
 
     def combine(self) -> str:
-        """
-        Combines everything into the final video.
-
-        Returns:
-            path (str): The path to the generated MP4 File.
-        """
         info("Starting to combine all elements into the final video")
         combined_image_path = os.path.join(ROOT_DIR, ".mp", str(uuid4()) + ".mp4")
         threads = get_threads()
@@ -530,15 +410,6 @@ class YouTube:
         
     
     def generate_video(self, tts_instance: TTS) -> str:
-        """
-        Generates a YouTube Short based on the provided niche and language.
-
-        Args:
-            tts_instance (TTS): Instance of TTS Class.
-
-        Returns:
-            path (str): The path to the generated MP4 File.
-        """
         info("Starting video generation process")
         
         info("Generating topic")
@@ -573,12 +444,6 @@ class YouTube:
         return path
     
     def get_channel_id(self) -> str:
-        """
-        Gets the Channel ID of the YouTube Account.
-
-        Returns:
-            channel_id (str): The Channel ID.
-        """
         try:
             info("Getting Channel ID from YouTube Studio")
             driver = self.browser
@@ -593,12 +458,6 @@ class YouTube:
             return None
 
     def upload_video(self) -> bool:
-        """
-        Uploads the video to YouTube.
-
-        Returns:
-            success (bool): Whether the upload was successful or not.
-        """
         try:
             info("Starting video upload process")
             self.get_channel_id()
@@ -746,12 +605,6 @@ class YouTube:
             return False
 
     def get_videos(self) -> List[dict]:
-        """
-        Gets the uploaded videos from the YouTube Channel.
-
-        Returns:
-            videos (List[dict]): The uploaded videos.
-        """
         try:
             info("Retrieving uploaded videos from cache")
             if not os.path.exists(get_youtube_cache_path()):
