@@ -1,7 +1,6 @@
 wheel
 termcolor
 schedule
-TTS
 prettytable
 webdriver_manager
 selenium_firefox
