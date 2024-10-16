@@ -249,3 +249,22 @@ def get_imagemagick_path() -> str:
     """
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["imagemagick_path"]
+
+
+def get_tts_engine() -> str:
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file).get("tts_engine")
+
+def get_tts_voice() -> str:
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file).get("tts_voice")
+
+def get_openai_api_key() -> str:
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file).get("openai_api_key")
+
+def get_elevenlabs_api_key() -> str:
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file).get("elevenlabs_api_key")
+
+
