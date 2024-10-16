@@ -26,6 +26,6 @@
   "openai_api_key": "your_openai_api_key_here",
   "tts_engine": "elevenlabs",
   "tts_voice": "Sarah",  
-  "font": "LuckeyGuy.ttf",
+  "font": "bold_font.ttf",
   "imagemagick_path": "/usr/bin/convert"
 }
