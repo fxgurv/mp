@@ -267,4 +267,6 @@ def get_elevenlabs_api_key() -> str:
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file).get("elevenlabs_api_key")
 
-
+def get_browser() -> str:
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file).get("browser")
