@@ -1,7 +1,8 @@
 {
-  "verbose": true,
+  "verbose": true, 
+  "browser": "firefox",
+  "headless": true,  
   "firefox_profile": "C:\\Users\\user\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\t3opcsof.motivation",
-  "headless": true,
   "twitter_language": "English",
   "llm": "google",
   "image_prompt_llm": "google",
