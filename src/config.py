@@ -49,7 +49,7 @@ def get_verbose() -> bool:
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["verbose"]
 
-def get_firefox_profile_path() -> str:
+def get_browser_profile_path() -> str:
     """
     Gets the path to the Firefox profile.
 
@@ -57,7 +57,7 @@ def get_firefox_profile_path() -> str:
         path (str): The path to the Firefox profile
     """
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
-        return json.load(file)["firefox_profile"]
+        return json.load(file)["profile_path"]
 
 def get_headless() -> bool:
     """
