@@ -28,15 +28,15 @@ from utils import *
 from selenium.common.exceptions import TimeoutException, ElementNotInteractableException, NoSuchElementException
 
 class Uploader:
-    def __init__(self, fp_profile_path: str):
+    def __init__(self, profile_path: str):
         info("Setting up Firefox profile for Uploader")
         self.options: Options = Options()
         if get_headless():
             info("Setting browser to headless mode")
             self.options.add_argument("--headless")
-        info(f"Setting Firefox profile path: {fp_profile_path}")
+        info(f"Setting Firefox profile path: {profile_path}")
         self.options.add_argument("-profile")
-        self.options.add_argument(fp_profile_path)
+        self.options.add_argument(profile_path)
         info("Installing GeckoDriver")
         self.service: Service = Service(GeckoDriverManager().install())
         info("Initializing Firefox browser")
