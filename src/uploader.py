@@ -28,10 +28,11 @@ from utils import *
 from selenium.common.exceptions import TimeoutException, ElementNotInteractableException, NoSuchElementException
 
 class Uploader:
+class Uploader:
     def __init__(self, profile_path: str):
         info("Setting up profile for Uploader")
         browser = get_browser() 
-		
+        
         if browser == 'firefox':
             self.options = FirefoxOptions()
             if get_headless():
@@ -43,7 +44,15 @@ class Uploader:
             info("Installing GeckoDriver")
             self.service = FirefoxService(GeckoDriverManager().install())
             info("Initializing Firefox browser")
-            self.browser = webdriver.Firefox(service=self.service, options=self.options)
+            try:
+                self.browser = webdriver.Firefox(service=self.service, options=self.options)
+            except Exception as e:
+                error(f"Failed to initialize Firefox with custom profile: {e}")
+                info("Attempting to initialize Firefox without custom profile")
+                self.options = FirefoxOptions()
+                if get_headless():
+                    self.options.add_argument("--headless")
+                self.browser = webdriver.Firefox(service=self.service, options=self.options)
         
         elif browser == 'chrome':
             options = ChromeOptions()
