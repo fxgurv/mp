@@ -28,5 +28,8 @@
   "tts_engine": "edge",
   "tts_voice": "en-US-ChristopherNeural",  
   "font": "bold_font.ttf",
+  "tetelegram_api_id": "13414818",
+  "tetelegram_api_hash": "9e034e216c4e44114206e277e793aec7",
+  "tetelegram_bot_token": "6332817724:AAEnK_BVCPT-60CnyYv5PRmtUa-70j3Umd4",  
   "imagemagick_path": "/usr/bin/convert"
 }
