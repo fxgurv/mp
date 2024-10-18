@@ -25,10 +25,10 @@ from moviepy.video.tools.subtitles import SubtitlesClip
 change_settings({"IMAGEMAGICK_BINARY": get_imagemagick_path()})
 
 class YouTube:
-    def __init__(self, account_uuid: str, account_nickname: str, profile_path: str, niche: str, language: str) -> None:
-        info(f"Initializing YouTube class for account: {account_nickname}")
+    def __init__(self, account_uuid: str, account_name: str, profile_path: str, niche: str, language: str) -> None:
+        info(f"Initializing YouTube class for account: {account_name}")
         self._account_uuid: str = account_uuid
-        self._account_nickname: str = account_nickname
+        self._account_name: str = account_name
         self._fp_profile_path: str = profile_path
         self._niche: str = niche
         self._language: str = language
