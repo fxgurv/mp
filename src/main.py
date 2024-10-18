@@ -64,7 +64,7 @@ def main():
                 add_account("youtube", {
                     "id": generated_uuid,
                     "name": name,
-                    "firefox_profile": profile_path,
+                    "profile_path": profile_path,
                     "niche": niche,
                     "language": language,
                     "videos": []
@@ -96,7 +96,7 @@ def main():
                 youtube = YouTube(
                     selected_account["id"],
                     selected_account["name"],
-                    selected_account["firefox_profile"],
+                    selected_account["profile_path"],
                     selected_account["niche"],
                     selected_account["language"]
                 )
@@ -200,7 +200,7 @@ def main():
                 add_account("twitter", {
                     "id": generated_uuid,
                     "name": name,
-                    "firefox_profile": profile_path,
+                    "profile_path": profile_path,
                     "topic": topic,
                     "posts": []
                 })
@@ -231,7 +231,7 @@ def main():
                 twitter = Twitter(
                     selected_account["id"],
                     selected_account["name"],
-                    selected_account["firefox_profile"],
+                    selected_account["profile_path"],
                     selected_account["topic"]
                 )
 
@@ -340,7 +340,7 @@ def main():
                 })
                 success(f"Added new product with affiliate link: {affiliate_link}")
 
-                afm = AffiliateMarketing(affiliate_link, account["firefox_profile"], account["id"], account["name"], account["topic"])
+                afm = AffiliateMarketing(affiliate_link, account["profile_path"], account["id"], account["name"], account["topic"])
 
                 info("Generating pitch for affiliate marketing")
                 afm.generate_pitch()
@@ -375,7 +375,7 @@ def main():
                     if acc["id"] == selected_product["twitter_uuid"]:
                         account = acc
 
-                afm = AffiliateMarketing(selected_product["affiliate_link"], account["firefox_profile"], account["id"], account["name"], account["topic"])
+                afm = AffiliateMarketing(selected_product["affiliate_link"], account["profile_path"], account["id"], account["name"], account["topic"])
 
                 info("Generating pitch for affiliate marketing")
                 afm.generate_pitch()
