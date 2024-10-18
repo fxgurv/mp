@@ -1,8 +1,11 @@
 
-git clone https://github.com/FujiwaraChoki/MoneyPrinterV2.git
 
-# Copy Example Configuration and fill out values in config.json
-cp config.example.json config.json
+
+
+
+git clone https://github.com/fxgurv/mp.git
+cd mp
+git checkout update
 
 # Create a virtual environment
 python -m venv venv
