@@ -56,27 +56,27 @@ def main():
                 info(f"Generated new UUID: {generated_uuid}")
 
                 success(f" => Generated ID: {generated_uuid}")
-                nickname = question(" => Enter a nickname for this account: ")
+                name = question(" => Enter a name for this account: ")
                 fp_profile = question(" => Enter the path to the Firefox profile: ")
                 niche = question(" => Enter the account niche: ")
                 language = question(" => Enter the account language: ")
 
                 add_account("youtube", {
                     "id": generated_uuid,
-                    "nickname": nickname,
+                    "name": name,
                     "firefox_profile": fp_profile,
                     "niche": niche,
                     "language": language,
                     "videos": []
                 })
-                success(f"Added new YouTube account: {nickname}")
+                success(f"Added new YouTube account: {name}")
         else:
             info("Displaying cached YouTube accounts")
             table = PrettyTable()
-            table.field_names = ["ID", "UUID", "Nickname", "Niche"]
+            table.field_names = ["ID", "UUID", "name", "Niche"]
 
             for account in cached_accounts:
-                table.add_row([cached_accounts.index(account) + 1, colored(account["id"], "cyan"), colored(account["nickname"], "blue"), colored(account["niche"], "green")])
+                table.add_row([cached_accounts.index(account) + 1, colored(account["id"], "cyan"), colored(account["name"], "blue"), colored(account["niche"], "green")])
 
             print(table)
 
@@ -92,10 +92,10 @@ def main():
                 error("Invalid account selected. Restarting main function.")
                 main()
             else:
-                info(f"Selected YouTube account: {selected_account['nickname']}")
+                info(f"Selected YouTube account: {selected_account['name']}")
                 youtube = YouTube(
                     selected_account["id"],
-                    selected_account["nickname"],
+                    selected_account["name"],
                     selected_account["firefox_profile"],
                     selected_account["niche"],
                     selected_account["language"]
@@ -193,25 +193,25 @@ def main():
                 info(f"Generated new UUID: {generated_uuid}")
 
                 success(f" => Generated ID: {generated_uuid}")
-                nickname = question(" => Enter a nickname for this account: ")
+                name = question(" => Enter a name for this account: ")
                 fp_profile = question(" => Enter the path to the Firefox profile: ")
                 topic = question(" => Enter the account topic: ")
 
                 add_account("twitter", {
                     "id": generated_uuid,
-                    "nickname": nickname,
+                    "name": name,
                     "firefox_profile": fp_profile,
                     "topic": topic,
                     "posts": []
                 })
-                success(f"Added new Twitter account: {nickname}")
+                success(f"Added new Twitter account: {name}")
         else:
             info("Displaying cached Twitter accounts")
             table = PrettyTable()
-            table.field_names = ["ID", "UUID", "Nickname", "Account Topic"]
+            table.field_names = ["ID", "UUID", "name", "Account Topic"]
 
             for account in cached_accounts:
-                table.add_row([cached_accounts.index(account) + 1, colored(account["id"], "cyan"), colored(account["nickname"], "blue"), colored(account["topic"], "green")])
+                table.add_row([cached_accounts.index(account) + 1, colored(account["id"], "cyan"), colored(account["name"], "blue"), colored(account["topic"], "green")])
 
             print(table)
 
@@ -227,10 +227,10 @@ def main():
                 error("Invalid account selected. Restarting main function.")
                 main()
             else:
-                info(f"Selected Twitter account: {selected_account['nickname']}")
+                info(f"Selected Twitter account: {selected_account['name']}")
                 twitter = Twitter(
                     selected_account["id"],
-                    selected_account["nickname"],
+                    selected_account["name"],
                     selected_account["firefox_profile"],
                     selected_account["topic"]
                 )
@@ -340,7 +340,7 @@ def main():
                 })
                 success(f"Added new product with affiliate link: {affiliate_link}")
 
-                afm = AffiliateMarketing(affiliate_link, account["firefox_profile"], account["id"], account["nickname"], account["topic"])
+                afm = AffiliateMarketing(affiliate_link, account["firefox_profile"], account["id"], account["name"], account["topic"])
 
                 info("Generating pitch for affiliate marketing")
                 afm.generate_pitch()
@@ -375,7 +375,7 @@ def main():
                     if acc["id"] == selected_product["twitter_uuid"]:
                         account = acc
 
-                afm = AffiliateMarketing(selected_product["affiliate_link"], account["firefox_profile"], account["id"], account["nickname"], account["topic"])
+                afm = AffiliateMarketing(selected_product["affiliate_link"], account["firefox_profile"], account["id"], account["name"], account["topic"])
 
                 info("Generating pitch for affiliate marketing")
                 afm.generate_pitch()
