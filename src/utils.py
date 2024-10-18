@@ -3,7 +3,6 @@ import random
 import zipfile
 import requests
 import platform
-
 from status import *
 from config import *
 
@@ -56,55 +55,55 @@ def rem_temp_files() -> None:
         if not file.endswith(".json"):
             os.remove(os.path.join(mp_dir, file))
 
-def fetch_songs() -> None:
+def fetch_Music() -> None:
     """
-    Downloads songs into songs/ directory to use with geneated videos.
+    Downloads Music into Music/ directory to use with geneated videos.
 
     Returns:
         None
     """
     try:
-        info(f" => Fetching songs...")
+        info(f" => Fetching Music...")
 
-        files_dir = os.path.join(ROOT_DIR, "Songs")
+        files_dir = os.path.join(ROOT_DIR, "Music")
         if not os.path.exists(files_dir):
             os.mkdir(files_dir)
             if get_verbose():
                 info(f" => Created directory: {files_dir}")
         else:
-            # Skip if songs are already downloaded
+            # Skip if Music are already downloaded
             return
 
-        # Download songs
+        # Download Music
         response = requests.get(get_zip_url() or "https://filebin.net/bb9ewdtckolsf3sg/drive-download-20240209T180019Z-001.zip")
 
         # Save the zip file
-        with open(os.path.join(files_dir, "songs.zip"), "wb") as file:
+        with open(os.path.join(files_dir, "Music.zip"), "wb") as file:
             file.write(response.content)
 
         # Unzip the file
-        with zipfile.ZipFile(os.path.join(files_dir, "songs.zip"), "r") as file:
+        with zipfile.ZipFile(os.path.join(files_dir, "Music.zip"), "r") as file:
             file.extractall(files_dir)
 
         # Remove the zip file
-        os.remove(os.path.join(files_dir, "songs.zip"))
+        os.remove(os.path.join(files_dir, "Music.zip"))
 
-        success(" => Downloaded Songs to ../Songs.")
+        success(" => Downloaded Music to ../Music.")
 
     except Exception as e:
-        error(f"Error occurred while fetching songs: {str(e)}")
+        error(f"Error occurred while fetching Music: {str(e)}")
 
 def choose_random_song() -> str:
     """
-    Chooses a random song from the songs/ directory.
+    Chooses a random song from the Music/ directory.
 
     Returns:
         str: The path to the chosen song.
     """
     try:
-        songs = os.listdir(os.path.join(ROOT_DIR, "Songs"))
-        song = random.choice(songs)
+        Music = os.listdir(os.path.join(ROOT_DIR, "Music"))
+        song = random.choice(Music)
         success(f" => Chose song: {song}")
-        return os.path.join(ROOT_DIR, "Songs", song)
+        return os.path.join(ROOT_DIR, "Music", song)
     except Exception as e:
         error(f"Error occurred while choosing random song: {str(e)}")
