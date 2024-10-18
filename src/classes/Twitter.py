@@ -24,21 +24,21 @@ class Twitter:
     """
     Class for the Bot, that grows a Twitter account.
     """
-    def __init__(self, account_uuid: str, account_nickname: str, fp_profile_path: str, topic: str) -> None:
+    def __init__(self, account_uuid: str, account_name: str, profile_path: str, topic: str) -> None:
         """
         Initializes the Twitter Bot.
 
         Args:
             account_uuid (str): The account UUID
-            account_nickname (str): The account nickname
-            fp_profile_path (str): The path to the Firefox profile
+            account_name (str): The account name
+            profile_path (str): The path to the Browser profile
 
         Returns:
             None
         """
         self.account_uuid: str = account_uuid
-        self.account_nickname: str = account_nickname
-        self.fp_profile_path: str = fp_profile_path
+        self.account_name: str = account_name
+        self.profile_path: str = profile_path
         self.topic: str = topic
 
         # Initialize the Firefox profile
@@ -50,7 +50,7 @@ class Twitter:
 
         # Set the profile path
         self.options.add_argument("-profile")
-        self.options.add_argument(fp_profile_path)
+        self.options.add_argument(profile_path)
 
         # Set the service
         self.service: Service = Service(GeckoDriverManager().install())
