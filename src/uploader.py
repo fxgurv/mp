@@ -28,8 +28,10 @@ from utils import *
 from selenium.common.exceptions import TimeoutException, ElementNotInteractableException, NoSuchElementException
 
 class Uploader:
-    def __init__(self, browser: str, profile_path: str):
+    def __init__(self, profile_path: str):
         info("Setting up profile for Uploader")
+        browser = get_browser() 
+		
         if browser == 'firefox':
             self.options = FirefoxOptions()
             if get_headless():
