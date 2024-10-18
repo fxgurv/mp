@@ -15,7 +15,7 @@ class AffiliateMarketing:
     """
     This class will be used to handle all the affiliate marketing related operations.    
     """
-    def __init__(self, affiliate_link: str, fp_profile_path: str, twitter_account_uuid: str, account_nickname: str, topic: str) -> None:
+    def __init__(self, affiliate_link: str, fp_profile_path: str, twitter_account_uuid: str, account_name: str, topic: str) -> None:
         """
         Initializes the Affiliate Marketing class.
 
@@ -23,7 +23,7 @@ class AffiliateMarketing:
             affiliate_link (str): The affiliate link
             fp_profile_path (str): The path to the Firefox profile
             twitter_account_uuid (str): The Twitter account UUID
-            account_nickname (str): The account nickname
+            account_name (str): The account name
             topic (str): The topic of the product
 
         Returns:
@@ -54,8 +54,8 @@ class AffiliateMarketing:
         # Set the Twitter account UUID
         self.account_uuid: str = twitter_account_uuid
 
-        # Set the Twitter account nickname
-        self.account_nickname: str = account_nickname
+        # Set the Twitter account name
+        self.account_name: str = account_name
 
         # Set the Twitter topic
         self.topic: str = topic
@@ -148,7 +148,7 @@ class AffiliateMarketing:
         """
         if where == "twitter":
             # Initialize the Twitter class
-            twitter: Twitter = Twitter(self.account_uuid, self.account_nickname, self._fp_profile_path, self.topic)
+            twitter: Twitter = Twitter(self.account_uuid, self.account_name, self._fp_profile_path, self.topic)
 
             # Share the pitch
             twitter.post(self.pitch)
