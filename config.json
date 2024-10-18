@@ -25,8 +25,8 @@
   "assembly_ai_api_key": "e9c253a938184370becdf77f2a9e6a45",
   "elevenlabs_api_key": "sk_c2abfd724a75fef2b01b2347d3dcfe10079f816976a32121",
   "openai_api_key": "your_openai_api_key_here",
-  "tts_engine": "elevenlabs",
-  "tts_voice": "Sarah",  
+  "tts_engine": "edge",
+  "tts_voice": "en-US-ChristopherNeural",  
   "font": "bold_font.ttf",
   "imagemagick_path": "/usr/bin/convert"
 }
