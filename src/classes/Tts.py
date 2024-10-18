@@ -20,6 +20,8 @@ class TTS:
 
         if self.tts_engine == 'coqui':
             self._init_coqui_tts()
+        elif self.tts_engine == 'edge':
+            self._init_edge_tts()
 
     def _init_coqui_tts(self):
         from TTS.utils.manage import ModelManager
@@ -48,6 +50,10 @@ class TTS:
                     vocoder_config=voc_config_path
                 )
 
+    def _init_edge_tts(self):
+        import edge_tts
+        self.edge_tts = edge_tts
+
     def synthesize(self, text: str, output_file: str = os.path.join(ROOT_DIR, "tmp", "audio.wav")) -> str:
         info(f"Synthesizing text using {self.tts_engine}")
         if self.tts_engine == 'elevenlabs':
@@ -58,23 +64,49 @@ class TTS:
             return self._synthesize_gtts(text, output_file)
         elif self.tts_engine == 'coqui':
             return self._synthesize_coqui(text, output_file)
+        elif self.tts_engine == 'edge':
+            return self._synthesize_edge(text, output_file)
+        elif self.tts_engine == 'local_openai':
+            return self._synthesize_local_openai(text, output_file)
         else:
             error(f"Unsupported TTS engine: {self.tts_engine}")
             raise ValueError(f"Unsupported TTS engine: {self.tts_engine}")
 
     def _synthesize_elevenlabs(self, text: str, output_file: str) -> str:
         info("Synthesizing text using ElevenLabs")
-        url = f"https://api.elevenlabs.io/v1/text-to-speech/{self.tts_voice}"
+        
+        if not self.elevenlabs_api_key:
+            raise ValueError("ElevenLabs API key is not set")
+
+        voices_url = "https://api.elevenlabs.io/v1/voices"
         headers = {
-            "xi-api-key": self.elevenlabs_api_key,
-            "Content-Type": "application/json"
-        }
-        data = {
-            "text": text,
-            "model_id": "eleven_multilingual_v2"
+            "xi-api-key": self.elevenlabs_api_key
         }
 
         try:
+            voices_response = requests.get(voices_url, headers=headers)
+            voices_response.raise_for_status()
+            voices = voices_response.json().get("voices", [])
+            
+            voice_id = next((voice["voice_id"] for voice in voices if voice["name"].lower() == self.tts_voice.lower()), None)
+            
+            if not voice_id:
+                raise ValueError(f"Voice '{self.tts_voice}' not found")
+
+            url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+            headers.update({
+                "Content-Type": "application/json",
+                "Accept": "audio/mpeg"
+            })
+            data = {
+                "text": text,
+                "model_id": "eleven_monolingual_v1",
+                "voice_settings": {
+                    "stability": 0.5,
+                    "similarity_boost": 0.5
+                }
+            }
+
             response = requests.post(url, json=data, headers=headers)
             response.raise_for_status()
 
@@ -85,7 +117,9 @@ class TTS:
             return output_file
         except requests.exceptions.HTTPError as http_err:
             error(f"HTTP error occurred: {http_err}")
-            if response.status_code == 400:
+            if response.status_code == 401:
+                error("ElevenLabs API error: Unauthorized. Please check your API key.")
+            elif response.status_code == 400:
                 error_message = response.json().get('detail', {}).get('message', 'Unknown error')
                 error(f"ElevenLabs API error: {error_message}")
             raise
@@ -148,4 +182,51 @@ class TTS:
             return output_file
         except Exception as err:
             error(f"An error occurred with Coqui TTS: {err}")
+            raise
+
+    def _synthesize_edge(self, text: str, output_file: str) -> str:
+        info("Synthesizing text using Edge TTS")
+        try:
+            communicate = self.edge_tts.Communicate(text, self.tts_voice)
+            async def _main():
+                await communicate.save(output_file)
+            import asyncio
+            asyncio.run(_main())
+            success(f"Audio synthesized successfully and saved to {output_file}")
+            return output_file
+        except Exception as err:
+            error(f"An error occurred with Edge TTS: {err}")
+            raise
+
+    def _synthesize_local_openai(self, text: str, output_file: str) -> str:
+        info("Synthesizing text using Local OpenAI TTS")
+        url = "https://imseldrith-tts-openai-free.hf.space/v1/audio/speech"
+        headers = {
+            "accept": "*/*",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "model": "tts-1",
+            "input": text,
+            "voice": self.tts_voice,
+            "response_format": "mp3",
+            "speed": 1
+        }
+
+        try:
+            response = requests.post(url, json=data, headers=headers)
+            response.raise_for_status()
+
+            with open(output_file, "wb") as f:
+                f.write(response.content)
+
+            success(f"Audio synthesized successfully and saved to {output_file}")
+            return output_file
+        except requests.exceptions.HTTPError as http_err:
+            error(f"HTTP error occurred: {http_err}")
+            error_message = response.json().get('error', 'Unknown error')
+            error(f"Local OpenAI TTS API error: {error_message}")
+            raise
+        except Exception as err:
+            error(f"An error occurred: {err}")
             raise
