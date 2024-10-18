@@ -7,16 +7,9 @@ from status import *
 from config import *
 
 def close_running_selenium_instances() -> None:
-    """
-    Closes any running Selenium instances.
-
-    Returns:
-        None
-    """
     try:
         info(" => Closing running Selenium instances...")
 
-        # Kill all running Firefox instances
         if platform.system() == "Windows":
             os.system("taskkill /f /im firefox.exe")
         else:
@@ -28,27 +21,10 @@ def close_running_selenium_instances() -> None:
         error(f"Error occurred while closing running Selenium instances: {str(e)}")
 
 def build_url(youtube_video_id: str) -> str:
-    """
-    Builds the URL to the YouTube video.
-
-    Args:
-        youtube_video_id (str): The YouTube video ID.
-
-    Returns:
-        url (str): The URL to the YouTube video.
-    """
     return f"https://www.youtube.com/watch?v={youtube_video_id}"
 
 def rem_temp_files() -> None:
-    """
-    Removes temporary files in the `.mp` directory.
-
-    Returns:
-        None
-    """
-    # Path to the `.mp` directory
     mp_dir = os.path.join(ROOT_DIR, ".mp")
-
     files = os.listdir(mp_dir)
 
     for file in files:
@@ -56,12 +32,6 @@ def rem_temp_files() -> None:
             os.remove(os.path.join(mp_dir, file))
 
 def fetch_Music() -> None:
-    """
-    Downloads Music into Music/ directory to use with geneated videos.
-
-    Returns:
-        None
-    """
     try:
         info(f" => Fetching Music...")
 
@@ -71,21 +41,16 @@ def fetch_Music() -> None:
             if get_verbose():
                 info(f" => Created directory: {files_dir}")
         else:
-            # Skip if Music are already downloaded
             return
 
-        # Download Music
         response = requests.get(get_zip_url() or "https://filebin.net/bb9ewdtckolsf3sg/drive-download-20240209T180019Z-001.zip")
 
-        # Save the zip file
         with open(os.path.join(files_dir, "Music.zip"), "wb") as file:
             file.write(response.content)
 
-        # Unzip the file
         with zipfile.ZipFile(os.path.join(files_dir, "Music.zip"), "r") as file:
             file.extractall(files_dir)
 
-        # Remove the zip file
         os.remove(os.path.join(files_dir, "Music.zip"))
 
         success(" => Downloaded Music to ../Music.")
@@ -93,17 +58,11 @@ def fetch_Music() -> None:
     except Exception as e:
         error(f"Error occurred while fetching Music: {str(e)}")
 
-def choose_random_song() -> str:
-    """
-    Chooses a random song from the Music/ directory.
-
-    Returns:
-        str: The path to the chosen song.
-    """
+def choose_random_music() -> str:
     try:
-        Music = os.listdir(os.path.join(ROOT_DIR, "Music"))
-        song = random.choice(Music)
-        success(f" => Chose song: {song}")
-        return os.path.join(ROOT_DIR, "Music", song)
+        music_files = os.listdir(os.path.join(ROOT_DIR, "Music"))
+        chosen_music = random.choice(music_files)
+        success(f"Successfully chose random background Music: {chosen_music}")
+        return os.path.join(ROOT_DIR, "Music", chosen_music)
     except Exception as e:
-        error(f"Error occurred while choosing random song: {str(e)}")
+        error(f"Error occurred while choosing random Music: {str(e)}")
