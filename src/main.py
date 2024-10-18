@@ -57,14 +57,14 @@ def main():
 
                 success(f" => Generated ID: {generated_uuid}")
                 name = question(" => Enter a name for this account: ")
-                fp_profile = question(" => Enter the path to the Firefox profile: ")
+                profile_path = question(" => Enter the path to the Firefox profile: ")
                 niche = question(" => Enter the account niche: ")
                 language = question(" => Enter the account language: ")
 
                 add_account("youtube", {
                     "id": generated_uuid,
                     "name": name,
-                    "firefox_profile": fp_profile,
+                    "firefox_profile": profile_path,
                     "niche": niche,
                     "language": language,
                     "videos": []
@@ -194,13 +194,13 @@ def main():
 
                 success(f" => Generated ID: {generated_uuid}")
                 name = question(" => Enter a name for this account: ")
-                fp_profile = question(" => Enter the path to the Firefox profile: ")
+                profile_path = question(" => Enter the path to the Firefox profile: ")
                 topic = question(" => Enter the account topic: ")
 
                 add_account("twitter", {
                     "id": generated_uuid,
                     "name": name,
-                    "firefox_profile": fp_profile,
+                    "firefox_profile": profile_path,
                     "topic": topic,
                     "posts": []
                 })
