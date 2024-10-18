@@ -27,7 +27,7 @@ def main():
                     info("Initializing Twitter...")
                 twitter = Twitter(
                     acc["id"],
-                    acc["nickname"],
+                    acc["name"],
                     acc["firefox_profile"],
                     acc["topic"]
                 )
@@ -49,7 +49,7 @@ def main():
                     info("Initializing YouTube...")
                 youtube = YouTube(
                     acc["id"],
-                    acc["nickname"],
+                    acc["name"],
                     acc["firefox_profile"],
                     acc["niche"],
                     acc["language"]
