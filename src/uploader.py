@@ -28,19 +28,64 @@ from utils import *
 from selenium.common.exceptions import TimeoutException, ElementNotInteractableException, NoSuchElementException
 
 class Uploader:
-    def __init__(self, profile_path: str):
-        info("Setting up Firefox profile for Uploader")
-        self.options: Options = Options()
-        if get_headless():
-            info("Setting browser to headless mode")
-            self.options.add_argument("--headless")
-        info(f"Setting Firefox profile path: {profile_path}")
-        self.options.add_argument("-profile")
-        self.options.add_argument(profile_path)
-        info("Installing GeckoDriver")
-        self.service: Service = Service(GeckoDriverManager().install())
-        info("Initializing Firefox browser")
-        self.browser: webdriver.Firefox = webdriver.Firefox(service=self.service, options=self.options)
+    def __init__(self, browser: str, profile_path: str):
+        info("Setting up profile for Uploader")
+        if browser == 'firefox':
+            self.options = FirefoxOptions()
+            if get_headless():
+                info("Setting browser to headless mode")
+                self.options.add_argument("--headless")
+            info(f"Setting Firefox profile path: {profile_path}")
+            self.options.add_argument("-profile")
+            self.options.add_argument(profile_path)
+            info("Installing GeckoDriver")
+            self.service = FirefoxService(GeckoDriverManager().install())
+            info("Initializing Firefox browser")
+            self.browser = webdriver.Firefox(service=self.service, options=self.options)
+        
+        elif browser == 'chrome':
+            options = ChromeOptions()
+            if get_headless():
+                info("Setting Chrome to headless mode")
+                options.add_argument("--headless")
+            if profile_path:
+                info(f"Setting Chrome profile path: {profile_path}")
+                options.add_argument(f"user-data-dir={profile_path}")
+            info("Installing ChromeDriver")
+            service = ChromeService(ChromeDriverManager().install())
+            info("Initializing Chrome browser")
+            self.browser = webdriver.Chrome(service=service, options=options)
+
+        elif browser == 'edge':
+            options = EdgeOptions()
+            if get_headless():
+                info("Setting Edge to headless mode")
+                options.add_argument("--headless")
+            if profile_path:
+                info(f"Setting Edge profile path: {profile_path}")
+                options.add_argument(f"user-data-dir={profile_path}")
+            info("Installing EdgeDriver")
+            service = EdgeService(EdgeChromiumDriverManager().install())
+            info("Initializing Edge browser")
+            self.browser = webdriver.Edge(service=service, options=options)
+
+        elif browser == 'safari':
+            options = SafariOptions()
+            info("Safari does not support user profiles in the same way as other browsers.")
+            info("Initializing Safari browser")
+            self.browser = webdriver.Safari(options=options)
+
+        else:
+            error_message = f"Unsupported browser type: {browser}"
+            error(error_message)
+            raise ValueError(error_message)
+
+        success(f"{browser.capitalize()} browser setup complete.")
+        
+        self.channel_id = None
+        self.uploaded_video_url = None
+        self._account_uuid = None
+        self.screenshot_counter = 0
         self.channel_id = None
         self.uploaded_video_url = None
         self._account_uuid = None
