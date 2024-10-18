@@ -28,7 +28,6 @@ from utils import *
 from selenium.common.exceptions import TimeoutException, ElementNotInteractableException, NoSuchElementException
 
 class Uploader:
-class Uploader:
     def __init__(self, profile_path: str):
         info("Setting up profile for Uploader")
         browser = get_browser() 
