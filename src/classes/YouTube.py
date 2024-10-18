@@ -316,9 +316,9 @@ class YouTube:
         final_clip = concatenate_videoclips(clips)
         final_clip = final_clip.set_fps(30)
         
-        info("Selecting random background song")
-        random_song = choose_random_song()
-        info(f"Selected background song: {random_song}")
+        info("Selecting random background Music")
+        random_Music = choose_random_Music()
+        info(f"Selected background Music: {random_Music}")
 
         info("Generating subtitles")
         subtitles_path = self.generate_subtitles(self.tts_path)
@@ -332,13 +332,13 @@ class YouTube:
         subtitles.set_pos(("center", "center"))
 
         info("Processing background music")
-        random_song_clip = AudioFileClip(random_song).set_fps(44100)
-        random_song_clip = random_song_clip.fx(afx.volumex, 0.1)
+        random_Music_clip = AudioFileClip(random_Music).set_fps(44100)
+        random_Music_clip = random_Music_clip.fx(afx.volumex, 0.1)
         
         info("Composing final audio")
         comp_audio = CompositeAudioClip([
             tts_clip.set_fps(44100),
-            random_song_clip
+            random_Music_clip
         ])
 
         info("Setting final audio to video clip")
