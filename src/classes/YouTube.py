@@ -29,7 +29,7 @@ class YouTube:
         info(f"Initializing YouTube class for account: {account_name}")
         self._account_uuid: str = account_uuid
         self._account_name: str = account_name
-        self._fp_profile_path: str = profile_path
+        self._profile_path: str = profile_path
         self._niche: str = niche
         self._language: str = language
         self.images = []
