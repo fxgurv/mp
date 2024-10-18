@@ -24,20 +24,20 @@ class Twitter:
     """
     Class for the Bot, that grows a Twitter account.
     """
-    def __init__(self, account_uuid: str, account_nickname: str, fp_profile_path: str, topic: str) -> None:
+    def __init__(self, account_uuid: str, account_name: str, fp_profile_path: str, topic: str) -> None:
         """
         Initializes the Twitter Bot.
 
         Args:
             account_uuid (str): The account UUID
-            account_nickname (str): The account nickname
+            account_name (str): The account name
             fp_profile_path (str): The path to the Firefox profile
 
         Returns:
             None
         """
         self.account_uuid: str = account_uuid
-        self.account_nickname: str = account_nickname
+        self.account_name: str = account_name
         self.fp_profile_path: str = fp_profile_path
         self.topic: str = topic
 
