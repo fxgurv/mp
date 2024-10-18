@@ -317,7 +317,7 @@ class YouTube:
         final_clip = final_clip.set_fps(30)
         
         info("Selecting random background Music")
-        random_Music = choose_random_Music()
+        random_Music = choose_random_music()
         info(f"Selected background Music: {random_Music}")
 
         info("Generating subtitles")
