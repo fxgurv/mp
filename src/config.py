@@ -188,65 +188,27 @@ def get_outreach_message_body_file() -> str:
     """
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["outreach_message_body_file"]
-def get_gemini_api_key() -> str:
-    """
-    Gets the Google Gemini API key.
 
-    Returns:
-        key (str): The Gemini API key
-    """
+
+def get_gemini_api_key() -> str:
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["gemini_api_key"]
 
 def get_assemblyai_api_key() -> str:
-    """
-    Gets the AssemblyAI API key.
-
-    Returns:
-        key (str): The AssemblyAI API key
-    """
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["assembly_ai_api_key"]
     
 def equalize_subtitles(srt_path: str, max_chars: int = 10) -> None:
-    """
-    Equalizes the subtitles in a SRT file.
-
-    Args:
-        srt_path (str): The path to the SRT file
-        max_chars (int): The maximum amount of characters in a subtitle
-
-    Returns:
-        None
-    """
     srt_equalizer.equalize_srt_file(srt_path, srt_path, max_chars)
     
 def get_font() -> str:
-    """
-    Gets the font from the config file.
-
-    Returns:
-        font (str): The font
-    """
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["font"]
 
 def get_fonts_dir() -> str:
-    """
-    Gets the fonts directory.
-
-    Returns:
-        dir (str): The fonts directory
-    """
     return os.path.join(ROOT_DIR, "fonts")
 
 def get_imagemagick_path() -> str:
-    """
-    Gets the path to ImageMagick.
-
-    Returns:
-        path (str): The path to ImageMagick
-    """
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file)["imagemagick_path"]
 
@@ -261,12 +223,29 @@ def get_tts_voice() -> str:
 
 def get_openai_api_key() -> str:
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
-        return json.load(file).get("openai_api_key")
+        return json.load(file)["openai_api_key"]
 
 def get_elevenlabs_api_key() -> str:
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
-        return json.load(file).get("elevenlabs_api_key")
+        return json.load(file)["elevenlabs_api_key"]
 
 def get_browser() -> str:
     with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
         return json.load(file).get("browser")
+
+def get_telegram_api_id():
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file)["telegram_api_id"]
+
+
+def get_telegram_api_hash():
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file)["telegram_api_hash"]
+
+def get_phone():
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file)["phone_number"]
+
+def get_db_file():
+    with open(os.path.join(ROOT_DIR, "config.json"), "r") as file:
+        return json.load(file)["db_file"]
